@@ -120,16 +120,4 @@ public class QueryExecutor {
 
 	}
 
-	public static void main(String[] args) {
-
-		QueryExecutor exec = new QueryExecutor();
-		//get all the triples related to the predicate http://dbpedia.org/ontology/starring
-		//wherein the Godfather appears as subject or object	
-		exec.exec("http://dbpedia.org/resource/The_Godfather","http://dbpedia.org/ontology/starring");
-		
-		//get all the triples that involve the Godfather	
-		//exec.exec("http://dbpedia.org/resource/The_Godfather");
-				
-
-	}
 }

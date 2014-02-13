@@ -2,16 +2,9 @@ package ch.hearc.p3.recsys;
 
 public class Triple<T,U,V> implements Comparable<Triple<T,U,V>>
 {
-	/*------------------------------------------------------------------*\
-	|*							Attributs Private						*|
-	\*------------------------------------------------------------------*/
-
 	private T t;
 	private U u;
 	private V v;
-	/*------------------------------------------------------------------*\
-	|*							Constructeurs							*|
-	\*------------------------------------------------------------------*/
 
 	public Triple(T t,U u,V v)
 	{
@@ -19,10 +12,6 @@ public class Triple<T,U,V> implements Comparable<Triple<T,U,V>>
 		this.u = u;
 		this.v = v;
 	}
-
-	/*------------------------------------------------------------------*\
-	|*							Methodes Public							*|
-	\*------------------------------------------------------------------*/
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -35,10 +24,6 @@ public class Triple<T,U,V> implements Comparable<Triple<T,U,V>>
 	public String toString() {
 		return t + "\t" + u + "\t" + v;
 	}
-	
-	/*------------------------------*\
-	|*				Get				*|
-	\*------------------------------*/
 
 	public T getKey()
 	{
@@ -54,10 +39,6 @@ public class Triple<T,U,V> implements Comparable<Triple<T,U,V>>
 	{
 		return this.v;
 	}
-
-	/*------------------------------*\
-	|*				Set				*|
-	\*------------------------------*/
 
 	public void setKey(T t)
 	{

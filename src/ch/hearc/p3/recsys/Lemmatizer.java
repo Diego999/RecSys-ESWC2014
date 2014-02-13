@@ -19,7 +19,7 @@ import edu.stanford.nlp.util.CoreMap;
 
 public class Lemmatizer {
 	
-	//Tags can be found on http://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html
+	//Tags can be found on page 317 http://acl.ldc.upenn.edu/J/J93/J93-2004.pdf
 	private static final List<String> AUTHORIZED_TAGS = Arrays.asList("NN","NNS","NNP","NNPS");
 	private static List<String> STOPWORDS = null;
 	
@@ -31,8 +31,6 @@ public class Lemmatizer {
 		props.put("annotators", "tokenize, ssplit, pos, lemma");
 		pipeline = new StanfordCoreNLP(props);
 		
-		
-
 		//This try-catch sucks a bit. We keep it like this to simplify
 		try
 		{
@@ -62,8 +60,9 @@ public class Lemmatizer {
         pipeline.annotate(document);
 
         List<Triple<String, String, String>> lemmas = new LinkedList<Triple<String, String, String>>();
+        //We iterate over all the sentences
         for(CoreMap sentence: document.get(SentencesAnnotation.class)) {
-        	
+        	//We analyze the sentence, token - PartOfSpeech - Lemma
             for (CoreLabel token: sentence.get(TokensAnnotation.class)) {
             	String pos = token.get(PartOfSpeechAnnotation.class);
             	if(AUTHORIZED_TAGS.contains(pos))
