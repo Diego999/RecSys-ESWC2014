@@ -1,4 +1,8 @@
 RecSys-ESWC2014
 ===============
 
-Little project, Bsc 6 HE-Arc 2013-2014
+Project for the RecSys-ESWC2014.
+
+Dependies :
+ * Apache Jena https://jena.apache.org/download/index.cgi
+ * Stanford NLP http://nlp.stanford.edu/software/corenlp.shtml
