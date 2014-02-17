@@ -25,7 +25,7 @@ public class Lemmatizer {
 	private static final String FILEPATH_STOPWORD = "res/englishST.txt";
 	private static StanfordCoreNLP pipeline = null;
 	
-	public static void initialize()
+	static
 	{
 		Properties props = new Properties();
 		props.put("annotators", "tokenize, ssplit, pos, lemma");
@@ -53,9 +53,6 @@ public class Lemmatizer {
 	
 	public static List<Triple<String, String, String>> lemmatize(String text)
 	{
-		if(pipeline == null)
-			initialize();
-		
         Annotation document = new Annotation(removeStopWords(text));
         pipeline.annotate(document);
 

@@ -27,7 +27,7 @@ public class BooksDatabase {
 	//DBbook_ItemID \t name \t DBpedia_uri
 	private static Map<String, Pair<String, String>> BOOK_TABLE = null;
 	
-	public static void initialize()
+	static
 	{
 		//This try-catch sucks a bit. We keep it like this to simplify
 		try
