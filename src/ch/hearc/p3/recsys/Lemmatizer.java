@@ -22,7 +22,7 @@ public class Lemmatizer {
 	//Tags can be found on page 317 http://acl.ldc.upenn.edu/J/J93/J93-2004.pdf
 	private static final List<String> AUTHORIZED_TAGS = Arrays.asList("NN","NNS","NNP","NNPS");
 	private static List<String> STOPWORDS = null;
-	
+	private static final String FILEPATH_STOPWORD = "res/englishST.txt";
 	private static StanfordCoreNLP pipeline = null;
 	
 	public static void initialize()
@@ -34,7 +34,7 @@ public class Lemmatizer {
 		//This try-catch sucks a bit. We keep it like this to simplify
 		try
 		{
-			FileReader fr = new FileReader("res/englishST.txt");
+			FileReader fr = new FileReader(FILEPATH_STOPWORD);
 			BufferedReader bf = new BufferedReader(fr);
 				
 			String line;
