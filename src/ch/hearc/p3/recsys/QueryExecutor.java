@@ -19,18 +19,20 @@ public class QueryExecutor {
 
 	public void exec(String resource, String prop) {
 		this.resource = resource;
-		this.property=prop;
+		this.property = prop;
 		Query query;
 		String q;
 
 		String resourceQuery = "<" + resource + ">";
 		String propQuery = "<" + prop + ">";
-		// creation of a sparql query for getting all the resources connected to resource
-		//the FILTER isIRI is used to get only resources, so this query descards any literal or data-type
+		// creation of a sparql query for getting all the resources connected to
+		// resource
+		// the FILTER isIRI is used to get only resources, so this query
+		// descards any literal or data-type
 
 		q = " SELECT * WHERE {{" + " ?s " + propQuery + " " + resourceQuery
-				+ ".   " + "FILTER isIRI(?s). " + " } UNION {" + resourceQuery + " "
-				+ propQuery + "  ?o " + "FILTER isIRI(?o). " + "}}";
+				+ ".   " + "FILTER isIRI(?s). " + " } UNION {" + resourceQuery
+				+ " " + propQuery + "  ?o " + "FILTER isIRI(?o). " + "}}";
 		try {
 			query = QueryFactory.create(q);
 
@@ -40,18 +42,21 @@ public class QueryExecutor {
 		}
 
 	}
+
 	public void exec(String resource) {
 		this.resource = resource;
 		Query query;
 		String q;
 
 		String resourceQuery = "<" + resource + ">";
-		// creation of a sparql query for getting all the resources connected to resource
-		//the FILTER isIRI is used to get only resources, so this query descards any literal or data-type
+		// creation of a sparql query for getting all the resources connected to
+		// resource
+		// the FILTER isIRI is used to get only resources, so this query
+		// descards any literal or data-type
 
-		q = " SELECT * WHERE {{" + " ?s ?p " + resourceQuery
-				+ ".   " + "FILTER isIRI(?s). " + " } UNION {" + resourceQuery + 
-				 " ?p ?o " + "FILTER isIRI(?o). " + "}}";
+		q = " SELECT * WHERE {{" + " ?s ?p " + resourceQuery + ".   "
+				+ "FILTER isIRI(?s). " + " } UNION {" + resourceQuery
+				+ " ?p ?o " + "FILTER isIRI(?o). " + "}}";
 		try {
 			query = QueryFactory.create(q);
 
@@ -79,23 +84,23 @@ public class QueryExecutor {
 			QuerySolution qs;
 			RDFNode node, prop;
 
-			String n="", p=this.property;
+			String n = "", p = this.property;
 
 			System.out.println("Results:");
-			//iteration over the resultset
+			// iteration over the resultset
 			while (results.hasNext()) {
 
 				qs = results.next();
-				
-				if (qs.contains("p")){
-					prop = qs.get("p"); //get the predicate of the triple
+
+				if (qs.contains("p")) {
+					prop = qs.get("p"); // get the predicate of the triple
 					p = prop.toString();
 					p = p.replace("<", "");
 					p = p.replace(">", "");
-					
+
 				}
 				if (qs.get("o") == null) {
-					node = qs.get("s"); //get the subject of the triple
+					node = qs.get("s"); // get the subject of the triple
 					n = node.toString();
 					n = n.replace("<", "");
 					n = n.replace(">", "");
@@ -103,7 +108,7 @@ public class QueryExecutor {
 					System.out.println(n + '\t' + p + '\t' + resource);
 				} else {
 
-					node = qs.get("o"); //get the object of the triple
+					node = qs.get("o"); // get the object of the triple
 					n = node.toString();
 					n = n.replace("<", "");
 					n = n.replace(">", "");

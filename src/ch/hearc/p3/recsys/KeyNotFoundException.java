@@ -2,6 +2,8 @@ package ch.hearc.p3.recsys;
 
 public class KeyNotFoundException extends Exception {
 
+	private static final long serialVersionUID = 11008780163571122L;
+
 	public KeyNotFoundException() {
 		super();
 	}
