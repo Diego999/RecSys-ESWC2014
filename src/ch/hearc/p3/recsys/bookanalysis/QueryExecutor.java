@@ -1,6 +1,6 @@
 //This file is from https://github.com/vostuni/SparqlClient for the challenge
 
-package ch.hearc.p3.recsys;
+package ch.hearc.p3.recsys.bookanalysis;
 
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;

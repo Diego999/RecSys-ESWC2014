@@ -1,4 +1,4 @@
-package ch.hearc.p3.recsys;
+package ch.hearc.p3.recsys.bookanalysis;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Properties;
 
 import ch.hearc.p3.recsys.io.Reader;
-import ch.hearc.p3.recsys.utils.Triple;
 import edu.stanford.nlp.ling.CoreAnnotations.LemmaAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.PartOfSpeechAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
@@ -46,12 +45,17 @@ public class Lemmatizer
 		}
 	}
 
-	public static List<Triple<String, String, String>> lemmatize(String text)
+	public static List<String> lemmatize(String text)
 	{
-		Annotation document = new Annotation(removeStopWords(text));
+		return lemmatize(text, false);
+	}
+	
+	public static List<String> lemmatize(String text, boolean allTag)
+	{
+		Annotation document = new Annotation(text);
 		pipeline.annotate(document);
 
-		List<Triple<String, String, String>> lemmas = new LinkedList<Triple<String, String, String>>();
+		List<String> lemmas = new LinkedList<String>();
 		// We iterate over all the sentences
 		for (CoreMap sentence : document.get(SentencesAnnotation.class))
 		{
@@ -59,28 +63,20 @@ public class Lemmatizer
 			for (CoreLabel token : sentence.get(TokensAnnotation.class))
 			{
 				String pos = token.get(PartOfSpeechAnnotation.class);
-				if (AUTHORIZED_TAGS.contains(pos))
-					lemmas.add(new Triple<String, String, String>(token.toString(), pos, token.get(LemmaAnnotation.class)));
+				if (allTag || AUTHORIZED_TAGS.contains(pos))
+					lemmas.add(token.get(LemmaAnnotation.class));
 			}
 		}
 		return lemmas;
 	}
 
-	private static String removeStopWords(String text)
+	public static void removeStopWords(List<String> texts)
 	{
-		if (STOPWORDS == null)
-			return text;
-
-		String[] words = text.split(" ");
-		StringBuilder out = new StringBuilder();
-		String delimiter = " ";
-		for (String word : words)
-			if (!STOPWORDS.contains(word))
-			{
-				out.append(word);
-				out.append(delimiter);
-			}
-		return out.toString();
+		if (STOPWORDS != null)
+		{
+			for(String stop : STOPWORDS)
+				texts.remove(stop);
+		}
 	}
 
 	private Lemmatizer()
