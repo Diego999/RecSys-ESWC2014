@@ -1,4 +1,4 @@
-package ch.hearc.p3.recsys;
+package ch.hearc.p3.recsys.utils;
 
 public class Pair<T, U> implements Comparable<Pair<T, U>> {
 	private T t;

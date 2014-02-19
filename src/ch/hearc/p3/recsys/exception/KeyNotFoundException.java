@@ -1,4 +1,4 @@
-package ch.hearc.p3.recsys;
+package ch.hearc.p3.recsys.exception;
 
 public class KeyNotFoundException extends Exception {
 

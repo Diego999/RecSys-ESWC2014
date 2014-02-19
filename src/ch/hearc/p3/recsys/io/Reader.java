@@ -1,4 +1,4 @@
-package ch.hearc.p3.recsys;
+package ch.hearc.p3.recsys.io;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

@@ -1,4 +1,4 @@
-package ch.hearc.p3.recsys;
+package ch.hearc.p3.recsys.utils;
 
 public class Triple<T, U, V> implements Comparable<Triple<T, U, V>> {
 	private T t;

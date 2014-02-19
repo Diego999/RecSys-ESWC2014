@@ -8,6 +8,7 @@ import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.query.ResultSetFormatter;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 
 public class QueryExecutor {
@@ -16,32 +17,6 @@ public class QueryExecutor {
 	String property;
 	private String endpoint = "http://dbpedia.org/sparql";
 	private String graphURI = "http://dbpedia.org";
-
-	public void exec(String resource, String prop) {
-		this.resource = resource;
-		this.property = prop;
-		Query query;
-		String q;
-
-		String resourceQuery = "<" + resource + ">";
-		String propQuery = "<" + prop + ">";
-		// creation of a sparql query for getting all the resources connected to
-		// resource
-		// the FILTER isIRI is used to get only resources, so this query
-		// descards any literal or data-type
-
-		q = " SELECT * WHERE {{" + " ?s " + propQuery + " " + resourceQuery
-				+ ".   " + "FILTER isIRI(?s). " + " } UNION {" + resourceQuery
-				+ " " + propQuery + "  ?o " + "FILTER isIRI(?o). " + "}}";
-		try {
-			query = QueryFactory.create(q);
-
-			execQuery(query);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-
-	}
 
 	public void exec(String resource) {
 		this.resource = resource;
@@ -54,9 +29,10 @@ public class QueryExecutor {
 		// the FILTER isIRI is used to get only resources, so this query
 		// descards any literal or data-type
 
-		q = " SELECT * WHERE {{" + " ?s ?p " + resourceQuery + ".   "
-				+ "FILTER isIRI(?s). " + " } UNION {" + resourceQuery
-				+ " ?p ?o " + "FILTER isIRI(?o). " + "}}";
+		q = "PREFIX dbpprop: <http://dbpedia.org/property/> select ?name "+
+		        "where { "+
+		         "<http://dbpedia.org/resource/The_Silver_Kiss> dbpprop:name ?name.FILTER (LANG(?name) = \"en\")"+
+		        "}";
 		try {
 			query = QueryFactory.create(q);
 
@@ -80,8 +56,9 @@ public class QueryExecutor {
 						graphURI);
 
 			ResultSet results = qexec.execSelect();
-
+			//ResultSetFormatter.out(System.out, results, query) ;
 			QuerySolution qs;
+			
 			RDFNode node, prop;
 
 			String n = "", p = this.property;
@@ -92,31 +69,13 @@ public class QueryExecutor {
 
 				qs = results.next();
 
-				if (qs.contains("p")) {
-					prop = qs.get("p"); // get the predicate of the triple
+				if (qs.contains("name")) {
+					prop = qs.get("name");
 					p = prop.toString();
-					p = p.replace("<", "");
-					p = p.replace(">", "");
-
+							
+					p = p.substring(0, p.indexOf("@"));
+					System.out.println(p);
 				}
-				if (qs.get("o") == null) {
-					node = qs.get("s"); // get the subject of the triple
-					n = node.toString();
-					n = n.replace("<", "");
-					n = n.replace(">", "");
-
-					System.out.println(n + '\t' + p + '\t' + resource);
-				} else {
-
-					node = qs.get("o"); // get the object of the triple
-					n = node.toString();
-					n = n.replace("<", "");
-					n = n.replace(">", "");
-
-					System.out.println(resource + '\t' + p + '\t' + n);
-
-				}
-
 			}
 
 		} finally {
