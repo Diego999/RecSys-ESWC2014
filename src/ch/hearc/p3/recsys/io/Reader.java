@@ -7,9 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Reader {
-	public static List<String[]> readTextFile(String filePath, String separator)
-			throws FileNotFoundException, IOException {
+public class Reader
+{
+	public static List<String[]> readTextFile(String filePath, String separator) throws FileNotFoundException, IOException
+	{
 		FileReader fr = new FileReader(filePath);
 		BufferedReader bf = new BufferedReader(fr);
 

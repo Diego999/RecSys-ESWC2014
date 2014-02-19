@@ -17,52 +17,57 @@ import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 
-public class Lemmatizer {
+public class Lemmatizer
+{
 
 	// Tags can be found on page 317 http://acl.ldc.upenn.edu/J/J93/J93-2004.pdf
-	private static final List<String> AUTHORIZED_TAGS = Arrays.asList("NN",
-			"NNS", "NNP", "NNPS");
-	private static final List<String> STOPWORDS;
-	private static final String FILEPATH_STOPWORD = "res/englishST.txt";
-	private static final String SEPARATOR = "\n";
+	private static final List<String>	AUTHORIZED_TAGS		= Arrays.asList("NN", "NNS", "NNP", "NNPS");
+	private static final List<String>	STOPWORDS;
+	private static final String			FILEPATH_STOPWORD	= "res/englishST.txt";
+	private static final String			SEPARATOR			= "\n";
 
-	private static StanfordCoreNLP pipeline;
+	private static StanfordCoreNLP		pipeline;
 
-	static {
+	static
+	{
 		Properties props = new Properties();
 		props.put("annotators", "tokenize, ssplit, pos, lemma");
 		pipeline = new StanfordCoreNLP(props);
 
 		STOPWORDS = new ArrayList<String>();
-		try {
-			for (String[] strings : Reader.readTextFile(FILEPATH_STOPWORD,
-					SEPARATOR))
+		try
+		{
+			for (String[] strings : Reader.readTextFile(FILEPATH_STOPWORD, SEPARATOR))
 				for (String string : strings)
 					STOPWORDS.add(string);
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			System.err.println("There won't be a stopword list");
 		}
 	}
 
-	public static List<Triple<String, String, String>> lemmatize(String text) {
+	public static List<Triple<String, String, String>> lemmatize(String text)
+	{
 		Annotation document = new Annotation(removeStopWords(text));
 		pipeline.annotate(document);
 
 		List<Triple<String, String, String>> lemmas = new LinkedList<Triple<String, String, String>>();
 		// We iterate over all the sentences
-		for (CoreMap sentence : document.get(SentencesAnnotation.class)) {
+		for (CoreMap sentence : document.get(SentencesAnnotation.class))
+		{
 			// We analyze the sentence, token - PartOfSpeech - Lemma
-			for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
+			for (CoreLabel token : sentence.get(TokensAnnotation.class))
+			{
 				String pos = token.get(PartOfSpeechAnnotation.class);
 				if (AUTHORIZED_TAGS.contains(pos))
-					lemmas.add(new Triple<String, String, String>(token
-							.toString(), pos, token.get(LemmaAnnotation.class)));
+					lemmas.add(new Triple<String, String, String>(token.toString(), pos, token.get(LemmaAnnotation.class)));
 			}
 		}
 		return lemmas;
 	}
 
-	private static String removeStopWords(String text) {
+	private static String removeStopWords(String text)
+	{
 		if (STOPWORDS == null)
 			return text;
 
@@ -70,13 +75,15 @@ public class Lemmatizer {
 		StringBuilder out = new StringBuilder();
 		String delimiter = " ";
 		for (String word : words)
-			if (!STOPWORDS.contains(word)) {
+			if (!STOPWORDS.contains(word))
+			{
 				out.append(word);
 				out.append(delimiter);
 			}
 		return out.toString();
 	}
 
-	private Lemmatizer() {
+	private Lemmatizer()
+	{
 	}
 }
