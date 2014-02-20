@@ -1,14 +1,13 @@
 package ch.hearc.p3.recsys.bookanalysis.abstracts;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.Map.Entry;
 
 import ch.hearc.p3.recsys.exception.KeyNotFoundException;
 import ch.hearc.p3.recsys.utils.Pair;
+import ch.hearc.p3.recsys.utils.Tools;
 
 public class TfIdf
 {
@@ -81,22 +80,7 @@ public class TfIdf
 			tfs.get(id).put(entry.getKey(), entry.getValue());
 			idf.put(entry.getKey(), wordTfIdf.get(id).get(entry.getKey()));
 		}
-		finalIdfs.put(id, entriesSortedByValues(idf));
+		finalIdfs.put(id, Tools.entriesSortedByValues(idf));
 	}
 	
-	// Source https://stackoverflow.com/questions/2864840/treemap-sort-by-value
-	private static <K, V extends Comparable<? super V>> SortedSet<Map.Entry<K, V>> entriesSortedByValues(Map<K, V> map)
-	{
-		SortedSet<Map.Entry<K, V>> sortedEntries = new TreeSet<Map.Entry<K, V>>(new Comparator<Map.Entry<K, V>>()
-		{
-			@Override
-			public int compare(Map.Entry<K, V> e1, Map.Entry<K, V> e2)
-			{
-				return -e1.getValue().compareTo(e2.getValue()); // Order desc
-			}
-		});
-		sortedEntries.addAll(map.entrySet());
-		return sortedEntries;
-	}
-
 }
