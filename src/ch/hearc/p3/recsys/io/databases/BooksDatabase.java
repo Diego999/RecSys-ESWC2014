@@ -1,6 +1,7 @@
 package ch.hearc.p3.recsys.io.databases;
 
 import java.io.FileNotFoundException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +36,11 @@ public class BooksDatabase
 		}
 	}
 
+	public static Collection<Pair<String, String>> getAllBooks()
+	{
+		return BOOK_TABLE.values();
+	}
+	
 	public static Pair<String, String> getBook(int id) throws KeyNotFoundException
 	{
 		if (!BOOK_TABLE.containsKey(id))

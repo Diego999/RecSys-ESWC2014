@@ -7,27 +7,34 @@ import java.util.Map.Entry;
 
 import ch.hearc.p3.recsys.bookanalysis.SPARQLExecutor;
 import ch.hearc.p3.recsys.bookanalysis.TypeData;
+import ch.hearc.p3.recsys.io.databases.BooksDatabase;
 import ch.hearc.p3.recsys.utils.Pair;
 
 public class Main
 {
-
+	
 	public static void main(String[] args) throws Exception
 	{
-
-		for (Entry<TypeData, Pair<String[], Map<String, List<String>>>> entry : Settings.ALL_DATA_TO_EXTRACT.entrySet())
+		int i = 1;
+		for (Pair<String, String> pair : BooksDatabase.getAllBooks())
 		{
-			List<String> f = new ArrayList<String>();
-			for (String at : entry.getValue().getKey())
+			System.out.println(i + " " + pair.getKey());
+			for (Entry<TypeData, Pair<String[], Map<String, List<String>>>> entry : Settings.ALL_DATA_TO_EXTRACT.entrySet())
 			{
-				List<String> ret = SPARQLExecutor.exec("http://dbpedia.org/resource/The_Complete_Stories_(O'Connor)", at, entry.getValue().getValue());
-				if (ret != null)
+				List<String> f = new ArrayList<String>();
+				for (String at : entry.getValue().getKey())
 				{
-					f.addAll(ret);
+					List<String> ret = SPARQLExecutor.exec(pair.getValue(), at, entry.getValue().getValue());
+					if (ret != null)
+					{
+						f.addAll(ret);
+					}
 				}
+				System.out.println(entry.getKey().toString());
+				System.out.println(f);
 			}
-			System.out.println(entry.getKey().toString());
-			System.out.println(f);
+			System.out.println();
+			i+=1;
 		}
 	}
 }
