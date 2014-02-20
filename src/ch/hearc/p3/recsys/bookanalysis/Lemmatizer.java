@@ -49,7 +49,7 @@ public class Lemmatizer
 	{
 		return lemmatize(text, false);
 	}
-	
+
 	public static List<String> lemmatize(String text, boolean allTag)
 	{
 		Annotation document = new Annotation(text);
@@ -74,7 +74,7 @@ public class Lemmatizer
 	{
 		if (STOPWORDS != null)
 		{
-			for(String stop : STOPWORDS)
+			for (String stop : STOPWORDS)
 				texts.remove(stop);
 		}
 	}

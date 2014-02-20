@@ -1,5 +1,3 @@
-//This file is from https://github.com/vostuni/SparqlClient for the challenge
-
 package ch.hearc.p3.recsys.bookanalysis;
 
 import java.net.MalformedURLException;
@@ -8,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import ch.hearc.p3.recsys.Settings;
 import ch.hearc.p3.recsys.exception.AttributeFormIncorrectException;
 import ch.hearc.p3.recsys.exception.PrefixUnknownException;
+import ch.hearc.p3.recsys.settings.SettingsSPARQL;
 
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
@@ -75,7 +73,7 @@ public class SPARQLExecutor
 			if (entry.contains(LANGUAGE_TAG_SYMBOLE))
 			{
 				String[] params = entry.split(LANGUAGE_TAG_SYMBOLE);
-				if (params[1].equals(Settings.TAG_LANG))
+				if (params[1].equals(SettingsSPARQL.TAG_LANG))
 					output.add(params[0]);
 			} else
 			{
@@ -142,10 +140,10 @@ public class SPARQLExecutor
 
 		String prefixName = attribute.split(":")[0];
 
-		if (!Settings.PREFIX_SPARQL.containsKey(prefixName))
+		if (!SettingsSPARQL.PREFIX_SPARQL.containsKey(prefixName))
 			throw new PrefixUnknownException();
 
-		return Settings.PREFIX_SPARQL.get(prefixName);
+		return SettingsSPARQL.PREFIX_SPARQL.get(prefixName);
 	}
 
 	private static String filterByLanguage(String attribute, String language)

@@ -9,14 +9,14 @@ public class Tools
 {
 	public static boolean compare(double a, double b, double epsilon)
 	{
-		return Math.abs(a-b) < epsilon;
+		return Math.abs(a - b) < epsilon;
 	}
-	
+
 	public static boolean compare(double a, double b)
 	{
 		return compare(a, b, 1e-6);
 	}
-	
+
 	// Source https://stackoverflow.com/questions/2864840/treemap-sort-by-value
 	public static <K, V extends Comparable<? super V>> SortedSet<Map.Entry<K, V>> entriesSortedByValues(Map<K, V> map)
 	{

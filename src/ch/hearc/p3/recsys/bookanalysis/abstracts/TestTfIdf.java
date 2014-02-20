@@ -11,19 +11,19 @@ import ch.hearc.p3.recsys.utils.Tools;
 
 public class TestTfIdf
 {
-	
+
 	@Test
 	public void withStopWords()
 	{
 		Corpus corpus = new Corpus();
 		corpus.addDocument(new Document(1, "across actually test"));
-        corpus.addDocument(new Document(2, "across actually test"));
-        corpus.addDocument(new Document(3, "actually"));
-        corpus.addDocument(new Document(4, "across test"));
-        corpus.addDocument(new Document(5, "eat pear"));
-        TfIdf tfIdf = new TfIdf(corpus);
-        
-        try
+		corpus.addDocument(new Document(2, "across actually test"));
+		corpus.addDocument(new Document(3, "actually"));
+		corpus.addDocument(new Document(4, "across test"));
+		corpus.addDocument(new Document(5, "eat pear"));
+		TfIdf tfIdf = new TfIdf(corpus);
+
+		try
 		{
 			assertTrue(Tools.compare(tfIdf.getTfIdf("test", 1), 0.232990001));
 			assertTrue(Tools.compare(tfIdf.getTfIdf("pear", 5), 0.349485002));
@@ -32,19 +32,19 @@ public class TestTfIdf
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void withoutStopWords()
 	{
-        Corpus corpus = new Corpus();
-        corpus.addDocument(new Document(1, "eaten pomme tomorrow"));
-        corpus.addDocument(new Document(2, "drink water tomorrow"));
-        corpus.addDocument(new Document(3, "yesterday buy bee"));
-        corpus.addDocument(new Document(4, "absolutely bee"));
-        corpus.addDocument(new Document(5, "eaten pear"));
-        TfIdf tfIdf = new TfIdf(corpus);
-        
-        try
+		Corpus corpus = new Corpus();
+		corpus.addDocument(new Document(1, "eaten pomme tomorrow"));
+		corpus.addDocument(new Document(2, "drink water tomorrow"));
+		corpus.addDocument(new Document(3, "yesterday buy bee"));
+		corpus.addDocument(new Document(4, "absolutely bee"));
+		corpus.addDocument(new Document(5, "eaten pear"));
+		TfIdf tfIdf = new TfIdf(corpus);
+
+		try
 		{
 			assertTrue(Tools.compare(tfIdf.getTfIdf("bee", 3), 0.116495001));
 			assertTrue(Tools.compare(tfIdf.getTfIdf("pear", 5), 0.349485002));

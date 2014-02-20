@@ -16,7 +16,7 @@ public class FeaturesDatabase
 	{
 		return FEATURE_TABLE.contains(feature);
 	}
-	
+
 	public static void addFeatures(String feature)
 	{
 		FEATURE_TABLE.add(feature);

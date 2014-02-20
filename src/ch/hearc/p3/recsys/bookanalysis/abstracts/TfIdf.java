@@ -66,7 +66,7 @@ public class TfIdf
 				putTfIdf(tfs, finalIdfs, id);
 			} else
 				return null;
-		
+
 		return new Pair<Map<Integer, Map<String, Double>>, Map<Integer, SortedSet<Map.Entry<String, Double>>>>(tfs, finalIdfs);
 	}
 
@@ -82,5 +82,5 @@ public class TfIdf
 		}
 		finalIdfs.put(id, Tools.entriesSortedByValues(idf));
 	}
-	
+
 }

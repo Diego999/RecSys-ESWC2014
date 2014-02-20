@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import ch.hearc.p3.recsys.bookanalysis.SPARQLExecutor;
 import ch.hearc.p3.recsys.bookanalysis.TypeData;
 import ch.hearc.p3.recsys.io.databases.BooksDatabase;
+import ch.hearc.p3.recsys.settings.SettingsSPARQL;
 import ch.hearc.p3.recsys.utils.Pair;
 
 public class Main
@@ -19,7 +20,7 @@ public class Main
 		for (Pair<String, String> pair : BooksDatabase.getAllBooks())
 		{
 			System.out.println(i + " " + pair.getKey());
-			for (Entry<TypeData, Pair<String[], Map<String, List<String>>>> entry : Settings.ALL_DATA_TO_EXTRACT.entrySet())
+			for (Entry<TypeData, Pair<String[], Map<String, List<String>>>> entry : SettingsSPARQL.ALL_DATA_TO_EXTRACT.entrySet())
 			{
 				List<String> f = new ArrayList<String>();
 				for (String at : entry.getValue().getKey())
