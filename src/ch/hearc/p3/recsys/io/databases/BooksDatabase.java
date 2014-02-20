@@ -36,11 +36,16 @@ public class BooksDatabase
 		}
 	}
 
+	public static boolean contains(int book)
+	{
+		return BOOK_TABLE.containsKey(book);
+	}
+
 	public static Collection<Pair<String, String>> getAllBooks()
 	{
 		return BOOK_TABLE.values();
 	}
-	
+
 	public static Pair<String, String> getBook(int id) throws KeyNotFoundException
 	{
 		if (!BOOK_TABLE.containsKey(id))
