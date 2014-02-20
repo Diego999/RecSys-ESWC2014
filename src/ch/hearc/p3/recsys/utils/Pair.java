@@ -29,7 +29,7 @@ public class Pair<T, U> implements Comparable<Pair<T, U>>
 		return this.t;
 	}
 
-	public U getValue1()
+	public U getValue()
 	{
 		return this.u;
 	}
@@ -39,7 +39,7 @@ public class Pair<T, U> implements Comparable<Pair<T, U>>
 		this.t = t;
 	}
 
-	public void setValue1(U u)
+	public void setValue(U u)
 	{
 		this.u = u;
 	}
