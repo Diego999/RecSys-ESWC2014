@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Properties;
 
 import ch.hearc.p3.recsys.io.Reader;
+import ch.hearc.p3.recsys.settings.SettingsBookAnalysis;
 import edu.stanford.nlp.ling.CoreAnnotations.LemmaAnnotation;
+import edu.stanford.nlp.ling.CoreAnnotations.NamedEntityTagAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.PartOfSpeechAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.TokensAnnotation;
@@ -18,9 +20,6 @@ import edu.stanford.nlp.util.CoreMap;
 
 public class Lemmatizer
 {
-
-	// Tags can be found on page 317 http://acl.ldc.upenn.edu/J/J93/J93-2004.pdf
-	private static final List<String>	AUTHORIZED_TAGS		= Arrays.asList("NN", "NNS", "NNP", "NNPS");
 	private static final List<String>	STOPWORDS;
 	private static final String			FILEPATH_STOPWORD	= "res/englishST.txt";
 	private static final String			SEPARATOR			= "\n";
@@ -59,11 +58,12 @@ public class Lemmatizer
 		// We iterate over all the sentences
 		for (CoreMap sentence : document.get(SentencesAnnotation.class))
 		{
+			System.out.println(sentence.get(NamedEntityTagAnnotation.class));
 			// We analyze the sentence, token - PartOfSpeech - Lemma
 			for (CoreLabel token : sentence.get(TokensAnnotation.class))
 			{
 				String pos = token.get(PartOfSpeechAnnotation.class);
-				if (allTag || AUTHORIZED_TAGS.contains(pos))
+				if (allTag || SettingsBookAnalysis.AUTHORIZED_TAGS.contains(pos))
 					lemmas.add(token.get(LemmaAnnotation.class));
 			}
 		}
