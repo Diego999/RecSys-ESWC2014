@@ -25,7 +25,7 @@ public class ExportBooksXML
 {
 	public static final String		ROOT_NAME		= "books";
 	public static final String		BOOK_NAME		= "book";
-	public static final String BOOK_ID = "id";
+	public static final String		BOOK_ID			= "id";
 	public static final TypeData[]	BOOK_ATTRIBUTES	= { TypeData.Abstract, TypeData.Author, TypeData.Genre, TypeData.Subject, TypeData.Title };
 
 	// Original code :
@@ -47,7 +47,7 @@ public class ExportBooksXML
 			Attr attr = doc.createAttribute(BOOK_ID);
 			attr.setValue(book.getKey().toString());
 			bookElem.setAttributeNode(attr);
-			
+
 			for (Entry<TypeData, List<String>> data : book.getValue().entrySet())
 			{
 				for (String val : data.getValue())

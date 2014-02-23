@@ -10,8 +10,9 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Element;
+
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -42,9 +43,9 @@ public class ImportBooksXML
 				Map<TypeData, List<String>> attributes = new HashMap<TypeData, List<String>>();
 				for (TypeData td : ExportBooksXML.BOOK_ATTRIBUTES)
 					attributes.put(td, new ArrayList<String>());
-
+							
 				Node child = nNode.getFirstChild();
-
+				
 				while (child != null)
 				{
 					attributes.get(TypeData.valueOf(inverseFunctionNameTag(child.getNodeName()))).add(child.getTextContent());

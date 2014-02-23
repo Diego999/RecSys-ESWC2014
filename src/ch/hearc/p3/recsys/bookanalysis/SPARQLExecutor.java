@@ -98,6 +98,10 @@ public class SPARQLExecutor
 					// Plain-text
 					output.add(entry);
 				}
+				catch(Exception e)
+				{
+					//Nothing to do, you are higher than 1 depth
+				}
 			}
 		}
 		return output;

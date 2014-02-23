@@ -20,7 +20,7 @@ import ch.hearc.p3.recsys.utils.Pair;
 
 public class ExportBooksFromDBpedia
 {
-	public static final String	BOOKS_FILE	= "books.xml";
+	public static final String	BOOKS_FILE	= "res/books.xml";
 
 	public static void export() throws AttributeFormIncorrectException, PrefixUnknownException, ParserConfigurationException, TransformerException
 	{
