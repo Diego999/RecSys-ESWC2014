@@ -13,6 +13,6 @@ public class Main
 
 	public static void main(String[] args) throws Exception
 	{
-		List<Pair<Integer, Map<TypeData, List<String>>>> books = ImportBooksXML.importBooksXML(ExportBooksFromDBpedia.BOOKS_FILE));
+		List<Pair<Integer, Map<TypeData, List<String>>>> books = ImportBooksXML.importBooksXML(ExportBooksFromDBpedia.BOOKS_FILE);
 	}
 }
