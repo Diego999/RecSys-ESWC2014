@@ -20,34 +20,43 @@ import ch.hearc.p3.recsys.utils.Pair;
 
 public class ExportBooksFromDBpedia
 {
+	public static final String	BOOKS_FILE	= "books.xml";
+
 	public static void export() throws AttributeFormIncorrectException, PrefixUnknownException, ParserConfigurationException, TransformerException
 	{
 		long start = System.currentTimeMillis();
 		int i = 0;
 		double size = BooksDatabase.getAllBooks().size();
-		List<Map<TypeData, List<String>>> allBooks = new ArrayList<Map<TypeData, List<String>>>();
+		List<Pair<Integer, Map<TypeData, List<String>>>> allBooks = new ArrayList<Pair<Integer, Map<TypeData, List<String>>>>();
 
-		for (Pair<String, String> pair : BooksDatabase.getAllBooks())
+		for (Entry<Integer, Pair<String, String>> book : BooksDatabase.getAllBooks().entrySet())
 		{
-			System.out.println(String.format("%.2f", i / size) + "% " + pair.getKey());
+			Pair<String, String> pair = book.getValue();
+			System.out.println(String.format("%.2f", 100.0 * i / size) + "% " + book.getKey());
 			Map<TypeData, List<String>> data = new HashMap<TypeData, List<String>>();
-			for (Entry<TypeData, Pair<String[], Map<String, List<String>>>> entry : SettingsSPARQL.ALL_DATA_TO_EXTRACT.entrySet())
+			try
 			{
-				List<String> f = new ArrayList<String>();
-				for (String at : entry.getValue().getKey())
+				for (Entry<TypeData, Pair<String[], Map<String, List<String>>>> entry : SettingsSPARQL.ALL_DATA_TO_EXTRACT.entrySet())
 				{
-					List<String> ret = SPARQLExecutor.exec(pair.getValue(), at, entry.getValue().getValue());
-					if (ret != null)
+					List<String> f = new ArrayList<String>();
+					for (String at : entry.getValue().getKey())
 					{
-						f.addAll(ret);
+						List<String> ret = SPARQLExecutor.exec(pair.getValue(), at, entry.getValue().getValue());
+						if (ret != null)
+						{
+							f.addAll(ret);
+						}
 					}
+					data.put(entry.getKey(), f);
 				}
-				data.put(entry.getKey(), f);
+				allBooks.add(new Pair<Integer, Map<TypeData, List<String>>>(book.getKey(), data));
+			} catch (Exception e)
+			{
+				System.err.println("Error with " + book.getKey());
 			}
-			allBooks.add(data);
 			i += 1;
 		}
-		ExportBooksXML.exportBooksXML("test.xml", allBooks);
+		ExportBooksXML.exportBooksXML(BOOKS_FILE, allBooks);
 		System.out.println("Time : " + (System.currentTimeMillis() - start) / 1000.0 + " seconds");
 	}
 }

@@ -10,19 +10,20 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
+import org.w3c.dom.Element;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import ch.hearc.p3.recsys.bookanalysis.TypeData;
+import ch.hearc.p3.recsys.utils.Pair;
 
 public class ImportBooksXML
 {
 	// Original code :
 	// http://www.mkyong.com/java/how-to-read-xml-file-in-java-dom-parser/
-	public static List<Map<TypeData, List<String>>> importBooksXML(String filepath) throws ParserConfigurationException, SAXException, IOException
+	public static List<Pair<Integer, Map<TypeData, List<String>>>> importBooksXML(String filepath) throws ParserConfigurationException, SAXException, IOException
 	{
 		File fXmlFile = new File(filepath);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -31,7 +32,7 @@ public class ImportBooksXML
 		doc.getDocumentElement().normalize();
 
 		NodeList nList = doc.getElementsByTagName(ExportBooksXML.BOOK_NAME);
-		List<Map<TypeData, List<String>>> data = new ArrayList<Map<TypeData, List<String>>>();
+		List<Pair<Integer, Map<TypeData, List<String>>>> data = new ArrayList<Pair<Integer, Map<TypeData, List<String>>>>();
 
 		for (int i = 0; i < nList.getLength(); ++i)
 		{
@@ -43,12 +44,13 @@ public class ImportBooksXML
 					attributes.put(td, new ArrayList<String>());
 
 				Node child = nNode.getFirstChild();
+
 				while (child != null)
 				{
 					attributes.get(TypeData.valueOf(inverseFunctionNameTag(child.getNodeName()))).add(child.getTextContent());
 					child = child.getNextSibling();
 				}
-				data.add(attributes);
+				data.add(new Pair<Integer, Map<TypeData, List<String>>>(Integer.valueOf(((Element) nNode).getAttribute(ExportBooksXML.BOOK_ID)), attributes));
 			}
 		}
 		return data;
