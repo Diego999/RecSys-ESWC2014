@@ -1,4 +1,4 @@
-package ch.hearc.p3.recsys.bookanalysis.abstracts;
+package ch.hearc.p3.recsys.bookanalysis.tfidf;
 
 import java.util.HashMap;
 import java.util.Map;

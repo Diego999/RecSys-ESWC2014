@@ -1,11 +1,11 @@
-package ch.hearc.p3.recsys.bookanalysis.abstracts;
+package ch.hearc.p3.recsys.bookanalysis.tfidf;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import ch.hearc.p3.recsys.bookanalysis.abstracts.Document;
-import ch.hearc.p3.recsys.bookanalysis.abstracts.Corpus;
+import ch.hearc.p3.recsys.bookanalysis.tfidf.Corpus;
+import ch.hearc.p3.recsys.bookanalysis.tfidf.Document;
 import ch.hearc.p3.recsys.exception.KeyNotFoundException;
 import ch.hearc.p3.recsys.utils.Tools;
 
