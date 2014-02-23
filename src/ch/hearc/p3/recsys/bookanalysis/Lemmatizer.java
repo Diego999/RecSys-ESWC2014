@@ -1,7 +1,6 @@
 package ch.hearc.p3.recsys.bookanalysis;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -9,7 +8,6 @@ import java.util.Properties;
 import ch.hearc.p3.recsys.io.Reader;
 import ch.hearc.p3.recsys.settings.SettingsBookAnalysis;
 import edu.stanford.nlp.ling.CoreAnnotations.LemmaAnnotation;
-import edu.stanford.nlp.ling.CoreAnnotations.NamedEntityTagAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.PartOfSpeechAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.TokensAnnotation;
@@ -58,13 +56,12 @@ public class Lemmatizer
 		// We iterate over all the sentences
 		for (CoreMap sentence : document.get(SentencesAnnotation.class))
 		{
-			System.out.println(sentence.get(NamedEntityTagAnnotation.class));
 			// We analyze the sentence, token - PartOfSpeech - Lemma
 			for (CoreLabel token : sentence.get(TokensAnnotation.class))
 			{
 				String pos = token.get(PartOfSpeechAnnotation.class);
-				if (allTag || SettingsBookAnalysis.AUTHORIZED_TAGS.contains(pos))
-					lemmas.add(token.get(LemmaAnnotation.class));
+				if (!SettingsBookAnalysis.IGNORED_TAGS.contains(pos) && (allTag || SettingsBookAnalysis.AUTHORIZED_TAGS.contains(pos)))
+					lemmas.add(token.get(LemmaAnnotation.class).toLowerCase().trim());
 			}
 		}
 		return lemmas;
@@ -74,8 +71,7 @@ public class Lemmatizer
 	{
 		if (STOPWORDS != null)
 		{
-			for (String stop : STOPWORDS)
-				texts.remove(stop);
+			texts.removeAll(STOPWORDS);
 		}
 	}
 

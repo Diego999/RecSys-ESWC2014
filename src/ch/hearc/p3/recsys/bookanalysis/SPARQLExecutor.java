@@ -51,10 +51,6 @@ public class SPARQLExecutor
 		sb.append(SEPARATOR_TERM);
 		sb.append(DEFAULT_ATTRIBUTE_NAME_SPARQL);
 		sb.append(END_OF_LINE);
-		/*
-		 * sb.append(filterByLanguage(DEFAULT_ATTRIBUTE_NAME_SPARQL,
-		 * Settings.TAG_LANG)); sb.append(END_OF_LINE);
-		 */
 		sb.append(END_BLOC);
 
 		Query query = QueryFactory.create(sb.toString());
@@ -97,10 +93,9 @@ public class SPARQLExecutor
 				{
 					// Plain-text
 					output.add(entry);
-				}
-				catch(Exception e)
+				} catch (Exception e)
 				{
-					//Nothing to do, you are higher than 1 depth
+					// Nothing to do, you are higher than 1 depth
 				}
 			}
 		}
@@ -148,16 +143,5 @@ public class SPARQLExecutor
 			throw new PrefixUnknownException();
 
 		return SettingsSPARQL.PREFIX_SPARQL.get(prefixName);
-	}
-
-	private static String filterByLanguage(String attribute, String language)
-	{
-		StringBuilder sb = new StringBuilder();
-		sb.append("FILTER (LANG(");
-		sb.append(attribute);
-		sb.append(") = \"");
-		sb.append(language);
-		sb.append("\")");
-		return sb.toString();
 	}
 }

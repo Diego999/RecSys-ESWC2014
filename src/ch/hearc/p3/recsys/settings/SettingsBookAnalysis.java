@@ -13,6 +13,7 @@ public class SettingsBookAnalysis
 
 	// Tags can be found on page 317 http://acl.ldc.upenn.edu/J/J93/J93-2004.pdf
 	public static final List<String>			AUTHORIZED_TAGS				= Arrays.asList("NN", "NNS", "NNP", "NNPS");
+	public static final List<String>			IGNORED_TAGS				= Arrays.asList("#", "$", ".", ",", ":", "(", ")", "\"", "'", "`", "“", "”");
 
 	private static final double					ATTRIBUTE_WEIGHT_TITLE		= 1.0;
 	private static final double					ATTRIBUTE_WEIGHT_AUTHOR		= 1.0;
