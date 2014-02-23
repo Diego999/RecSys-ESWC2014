@@ -15,13 +15,12 @@ import ch.hearc.p3.recsys.exception.AttributeFormIncorrectException;
 import ch.hearc.p3.recsys.exception.PrefixUnknownException;
 import ch.hearc.p3.recsys.io.databases.BooksDatabase;
 import ch.hearc.p3.recsys.io.xml.ExportBooksXML;
+import ch.hearc.p3.recsys.settings.SettingsFilePaths;
 import ch.hearc.p3.recsys.settings.SettingsSPARQL;
 import ch.hearc.p3.recsys.utils.Pair;
 
 public class ExportBooksFromDBpedia
 {
-	public static final String	BOOKS_FILE	= "res/books.xml";
-
 	public static void export() throws AttributeFormIncorrectException, PrefixUnknownException, ParserConfigurationException, TransformerException
 	{
 		long start = System.currentTimeMillis();
@@ -56,7 +55,7 @@ public class ExportBooksFromDBpedia
 			}
 			i += 1;
 		}
-		ExportBooksXML.exportBooksXML(BOOKS_FILE, allBooks);
+		ExportBooksXML.exportBooksXML(SettingsFilePaths.BOOKS_FILE, allBooks);
 		System.out.println("Time : " + (System.currentTimeMillis() - start) / 1000.0 + " seconds");
 	}
 }

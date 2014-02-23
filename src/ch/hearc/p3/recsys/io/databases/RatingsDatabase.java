@@ -8,6 +8,7 @@ import java.util.Set;
 
 import ch.hearc.p3.recsys.exception.KeyNotFoundException;
 import ch.hearc.p3.recsys.io.Reader;
+import ch.hearc.p3.recsys.settings.SettingsFilePaths;
 
 public class RatingsDatabase
 {
@@ -19,8 +20,7 @@ public class RatingsDatabase
 	 * Each user has between 5 and 25 ratings. The itemID are the same of the
 	 * ones in the Mapping file.
 	 */
-	private static final String								SEPARATOR			= "\t";
-	private static final String								FILEPATH_DATABASE	= "res/training.tsv";
+	private static final String								SEPARATOR	= "\t";
 
 	// userID \t itemID \t rating
 	private static final Map<Integer, Map<Integer, Double>>	RATING_TABLE;
@@ -30,7 +30,7 @@ public class RatingsDatabase
 		RATING_TABLE = new HashMap<Integer, Map<Integer, Double>>();
 		try
 		{
-			for (String[] strings : Reader.readTextFile(FILEPATH_DATABASE, SEPARATOR))
+			for (String[] strings : Reader.readTextFile(SettingsFilePaths.FILEPATH_RATINGS, SEPARATOR))
 			{
 				int user = Integer.valueOf(strings[0]);
 				if (!RATING_TABLE.containsKey(user))

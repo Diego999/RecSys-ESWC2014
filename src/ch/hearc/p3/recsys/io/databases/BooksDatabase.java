@@ -6,13 +6,12 @@ import java.util.Map;
 
 import ch.hearc.p3.recsys.exception.KeyNotFoundException;
 import ch.hearc.p3.recsys.io.Reader;
+import ch.hearc.p3.recsys.settings.SettingsFilePaths;
 import ch.hearc.p3.recsys.utils.Pair;
 
 public class BooksDatabase
 {
-
-	private static final String								SEPARATOR			= "\t";
-	private static final String								FILEPATH_DATABASE	= "res/dbpedia_mapping.tsv";
+	private static final String								SEPARATOR	= "\t";
 
 	// DBbook_ItemID \t name \t DBpedia_uri
 	private static final Map<Integer, Pair<String, String>>	BOOK_TABLE;
@@ -22,7 +21,7 @@ public class BooksDatabase
 		BOOK_TABLE = new HashMap<Integer, Pair<String, String>>();
 		try
 		{
-			for (String[] strings : Reader.readTextFile(FILEPATH_DATABASE, SEPARATOR))
+			for (String[] strings : Reader.readTextFile(SettingsFilePaths.FILEPATH_BOOK_MAPPING, SEPARATOR))
 				BOOK_TABLE.put(Integer.valueOf(strings[0]), new Pair<String, String>(strings[1], strings[2]));
 		} catch (FileNotFoundException e)
 		{

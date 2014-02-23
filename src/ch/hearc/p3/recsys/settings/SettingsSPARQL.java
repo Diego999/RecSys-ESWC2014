@@ -74,4 +74,8 @@ public class SettingsSPARQL
 		ALL_DATA_TO_EXTRACT.put(TypeData.Subject, new Pair<String[], Map<String, List<String>>>(SUBJECT_ORDER_PREFERENCE_SPARQL, SUBJECT_ORDER_PREFERENCE_SPARQL_LINK));
 		ALL_DATA_TO_EXTRACT.put(TypeData.Abstract, new Pair<String[], Map<String, List<String>>>(ABSTRACT_ORDER_PREFERENCE_SPARQL, ABSTRACT_ORDER_PREFERENCE_SPARQL_LINK));
 	}
+
+	private SettingsSPARQL()
+	{
+	}
 }

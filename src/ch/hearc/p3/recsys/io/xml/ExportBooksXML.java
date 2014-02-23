@@ -52,7 +52,7 @@ public class ExportBooksXML
 			{
 				for (String val : data.getValue())
 				{
-					Element element = doc.createElement(data.getKey().toString().toLowerCase());
+					Element element = doc.createElement(functionNameTag(data.getKey().toString()));
 					element.appendChild(doc.createTextNode(val));
 					bookElem.appendChild(element);
 				}
@@ -65,5 +65,10 @@ public class ExportBooksXML
 		StreamResult result = new StreamResult(new File(filepath));
 
 		transformer.transform(source, result);
+	}
+	
+	private static String functionNameTag(String tag)
+	{
+		return tag.toLowerCase();
 	}
 }
