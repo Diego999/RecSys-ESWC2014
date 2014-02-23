@@ -1,9 +1,13 @@
 package ch.hearc.p3.recsys;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import jdk.internal.jfr.events.FileWriteEvent;
 import ch.hearc.p3.recsys.bookanalysis.TypeData;
 import ch.hearc.p3.recsys.bookanalysis.analysis.Abstract;
 import ch.hearc.p3.recsys.bookanalysis.analysis.Analyzer;
@@ -26,19 +30,35 @@ public class Main
 		System.out.println("Total time : " + (System.currentTimeMillis() - start) / 1000.0 + " seconds");
 	}
 
-	private static void display(List<List<Pair<Integer, List<Pair<String, Double>>>>> features)
+	private static void display(List<List<Pair<Integer, List<Pair<String, Double>>>>> features) throws IOException
 	{
-		for (List<Pair<Integer, List<Pair<String, Double>>>> list : features)
+		FileWriter fw = null;
+		BufferedWriter bw = null;
+
+		try
 		{
-			System.out.println("One of the category Subject, Author, Genre, Title or Abstract");
-			for (Pair<Integer, List<Pair<String, Double>>> pair : list)
+			fw = new FileWriter("output.txt");
+			bw = new BufferedWriter(fw);
+
+			for (List<Pair<Integer, List<Pair<String, Double>>>> list : features)
 			{
-				System.out.println("Book : " + pair.getKey());
-				for (Pair<String, Double> feature : pair.getValue())
-					System.out.println(feature);
-				System.out.println();
+				bw.write("One of the category Subject, Author, Genre, Title or Abstract\n");
+				for (Pair<Integer, List<Pair<String, Double>>> pair : list)
+				{
+					bw.write("Book : " + pair.getKey() + "\n");
+					for (Pair<String, Double> feature : pair.getValue())
+						bw.write(feature + "\n");
+					bw.write("\n");
+				}
+				bw.write("\n");
 			}
-			System.out.println();
+		} catch (Exception e)
+		{
+			System.err.println("Error during the writing process");
+		} finally
+		{
+			bw.close();
+			fw.close();
 		}
 	}
 
