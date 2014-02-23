@@ -16,10 +16,10 @@ public class TestTfIdf
 	public void withStopWords()
 	{
 		Corpus corpus = new Corpus();
-		corpus.addDocument(new Document(1, "across actually test"));
-		corpus.addDocument(new Document(2, "across actually test"));
-		corpus.addDocument(new Document(3, "actually"));
-		corpus.addDocument(new Document(4, "across test"));
+		corpus.addDocument(new Document(1, "because before test"));
+		corpus.addDocument(new Document(2, "because before test"));
+		corpus.addDocument(new Document(3, "because"));
+		corpus.addDocument(new Document(4, "before test"));
 		corpus.addDocument(new Document(5, "eat pear"));
 		TfIdf tfIdf = new TfIdf(corpus);
 
