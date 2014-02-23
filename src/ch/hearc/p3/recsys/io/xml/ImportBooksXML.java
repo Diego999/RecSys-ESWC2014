@@ -43,9 +43,9 @@ public class ImportBooksXML
 				Map<TypeData, List<String>> attributes = new HashMap<TypeData, List<String>>();
 				for (TypeData td : ExportBooksXML.BOOK_ATTRIBUTES)
 					attributes.put(td, new ArrayList<String>());
-							
+
 				Node child = nNode.getFirstChild();
-				
+
 				while (child != null)
 				{
 					attributes.get(TypeData.valueOf(inverseFunctionNameTag(child.getNodeName()))).add(child.getTextContent());
