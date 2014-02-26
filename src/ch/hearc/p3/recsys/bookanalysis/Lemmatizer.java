@@ -61,7 +61,11 @@ public class Lemmatizer
 			{
 				String pos = token.get(PartOfSpeechAnnotation.class);
 				if (!SettingsBookAnalysis.IGNORED_TAGS.contains(pos) && (allTag || SettingsBookAnalysis.AUTHORIZED_TAGS.contains(pos)))
-					lemmas.add(token.get(LemmaAnnotation.class).toLowerCase().trim());
+				{
+					String lemma = token.get(LemmaAnnotation.class).toLowerCase().trim();
+					if(!pos.equals(SettingsBookAnalysis.FLAG_NUMBER) || (pos.equals(SettingsBookAnalysis.FLAG_NUMBER) && lemma.length() == SettingsBookAnalysis.NUMBER_OF_DIGITS_ACCEPTED))
+						lemmas.add(lemma);
+				}
 			}
 		}
 		return lemmas;

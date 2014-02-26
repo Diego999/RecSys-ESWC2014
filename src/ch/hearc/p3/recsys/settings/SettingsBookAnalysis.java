@@ -12,7 +12,10 @@ public class SettingsBookAnalysis
 	public static final Map<TypeData, Double>	ATTRIBUTE_WEIGHT_FACTOR;
 
 	// Tags can be found on page 317 http://acl.ldc.upenn.edu/J/J93/J93-2004.pdf
-	public static final List<String>			AUTHORIZED_TAGS				= Arrays.asList("NN", "NNS", "NNP", "NNPS");
+	public static final String					FLAG_NUMBER					= "CD";
+	public static final List<String>			AUTHORIZED_TAGS				= Arrays.asList("NN", "NNS", "NNP", "NNPS", FLAG_NUMBER);
+	public static final int						NUMBER_OF_DIGITS_ACCEPTED	= 4;
+
 	public static final List<String>			IGNORED_TAGS				= Arrays.asList("#", "$", ".", ",", ":", "(", ")", "\"", "'", "`", "“", "”");
 
 	private static final double					ATTRIBUTE_WEIGHT_TITLE		= 1.0;

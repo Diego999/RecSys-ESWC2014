@@ -2,9 +2,11 @@ package ch.hearc.p3.recsys.bookanalysis.analysis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import ch.hearc.p3.recsys.bookanalysis.Lemmatizer;
 import ch.hearc.p3.recsys.bookanalysis.TypeData;
@@ -33,7 +35,7 @@ public class Abstract extends Analyzer
 	@Override
 	public List<Pair<Integer, List<Pair<String, Double>>>> computeFeatures()
 	{
-		Map<Integer, List<String>> lemmas = new HashMap<Integer, List<String>>();
+		Map<Integer, Set<String>> lemmas = new HashMap<Integer, Set<String>>();
 		for (Pair<Integer, List<String>> attributes : data)
 		{
 			StringBuilder sb = new StringBuilder();
@@ -47,13 +49,13 @@ public class Abstract extends Analyzer
 			corpus.addDocument(new Document(attributes.getKey(), text));
 			List<String> lems = Lemmatizer.lemmatize(text);
 			Lemmatizer.removeStopWords(lems);
-			lemmas.put(attributes.getKey(), lems);
+			lemmas.put(attributes.getKey(), new HashSet<String>(lems));
 		}
 
 		tfIdf = new TfIdf(corpus);
 
 		List<Pair<Integer, List<Pair<String, Double>>>> out = new ArrayList<Pair<Integer, List<Pair<String, Double>>>>();
-		for (Entry<Integer, List<String>> entry : lemmas.entrySet())
+		for (Entry<Integer, Set<String>> entry : lemmas.entrySet())
 		{
 			int id = entry.getKey();
 			List<Pair<String, Double>> listTfIdf = new ArrayList<Pair<String, Double>>();

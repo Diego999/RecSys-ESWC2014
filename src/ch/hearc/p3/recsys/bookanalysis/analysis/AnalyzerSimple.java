@@ -1,8 +1,10 @@
 package ch.hearc.p3.recsys.bookanalysis.analysis;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ch.hearc.p3.recsys.bookanalysis.TypeData;
 import ch.hearc.p3.recsys.settings.SettingsBookAnalysis;
@@ -10,8 +12,8 @@ import ch.hearc.p3.recsys.utils.Pair;
 
 public abstract class AnalyzerSimple extends Analyzer
 {
-	private static final String REMOVE_COMA = ",";
-	
+	private static final String	REMOVE_COMA	= ",";
+
 	public AnalyzerSimple(List<Pair<Integer, Map<TypeData, List<String>>>> books, TypeData typeData)
 	{
 		super(books, typeData);
@@ -28,9 +30,15 @@ public abstract class AnalyzerSimple extends Analyzer
 			for (String s : pair.getValue())
 				feature.add(s);
 
+			Set<String> insertedFeatures = new HashSet<String>();
 			for (String s : feature)
 			{
-				list.add(new Pair<String, Double>(s.toLowerCase().trim().replace(REMOVE_COMA, ""), SettingsBookAnalysis.ATTRIBUTE_WEIGHT_FACTOR.get(typeData)));
+				String lemma = s.toLowerCase().trim().replace(REMOVE_COMA, "");
+				if (!insertedFeatures.contains(lemma))
+				{
+					insertedFeatures.add(lemma);
+					list.add(new Pair<String, Double>(lemma, SettingsBookAnalysis.ATTRIBUTE_WEIGHT_FACTOR.get(typeData)));
+				}
 			}
 			out.add(new Pair<Integer, List<Pair<String, Double>>>(pair.getKey(), list));
 		}
