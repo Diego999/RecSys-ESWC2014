@@ -10,6 +10,8 @@ import ch.hearc.p3.recsys.utils.Pair;
 
 public abstract class AnalyzerSimple extends Analyzer
 {
+	private static final String REMOVE_COMA = ",";
+	
 	public AnalyzerSimple(List<Pair<Integer, Map<TypeData, List<String>>>> books, TypeData typeData)
 	{
 		super(books, typeData);
@@ -28,7 +30,7 @@ public abstract class AnalyzerSimple extends Analyzer
 
 			for (String s : feature)
 			{
-				list.add(new Pair<String, Double>(s.toLowerCase().trim(), SettingsBookAnalysis.ATTRIBUTE_WEIGHT_FACTOR.get(typeData)));
+				list.add(new Pair<String, Double>(s.toLowerCase().trim().replace(REMOVE_COMA, ""), SettingsBookAnalysis.ATTRIBUTE_WEIGHT_FACTOR.get(typeData)));
 			}
 			out.add(new Pair<Integer, List<Pair<String, Double>>>(pair.getKey(), list));
 		}
