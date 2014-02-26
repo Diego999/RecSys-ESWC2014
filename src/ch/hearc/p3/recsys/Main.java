@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import jdk.internal.jfr.events.FileWriteEvent;
+import ch.hearc.p3.recsys.bookanalysis.Statistics;
 import ch.hearc.p3.recsys.bookanalysis.TypeData;
 import ch.hearc.p3.recsys.bookanalysis.analysis.Abstract;
 import ch.hearc.p3.recsys.bookanalysis.analysis.Analyzer;
@@ -26,7 +27,9 @@ public class Main
 	public static void main(String[] args) throws Exception
 	{
 		long start = System.currentTimeMillis();
-		display(executeAnalyzer(createAnalyzer(ImportBooksXML.importBooksXML(SettingsFilePaths.BOOKS_FILE))));
+		List<List<Pair<Integer, List<Pair<String, Double>>>>> books = executeAnalyzer(createAnalyzer(ImportBooksXML.importBooksXML(SettingsFilePaths.BOOKS_FILE)));
+		display(books);
+		System.out.println((new Statistics(books)).toString());
 		System.out.println("Total time : " + (System.currentTimeMillis() - start) / 1000.0 + " seconds");
 	}
 
