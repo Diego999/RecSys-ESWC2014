@@ -1,11 +1,14 @@
 package ch.hearc.p3.recsys.io.databases;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import ch.hearc.p3.recsys.exception.KeyNotFoundException;
+import ch.hearc.p3.recsys.io.Reader;
+import ch.hearc.p3.recsys.settings.SettingsFilePaths;
 import ch.hearc.p3.recsys.utils.Pair;
 
 public class BooksFeaturesDatabase
@@ -15,6 +18,34 @@ public class BooksFeaturesDatabase
 	static
 	{
 		BOOKS_FEATURES_TABLE = new HashMap<Integer, List<Pair<String, Double>>>();
+		try
+		{
+			for (String[] strings : Reader.readTextFile(SettingsFilePaths.FILEPATH_FEATURES, SettingsFilePaths.SEPARATOR_FEATURES))
+				try
+				{
+					int id = Integer.valueOf(strings[0]);
+					String feature = strings[1];
+					double weight = Double.valueOf(strings[2]);
+					FeaturesDatabase.addFeatures(feature);
+
+					if (!BooksDatabase.contains(id))
+						throw new KeyNotFoundException("Book " + id + " hasn't be found !");
+					if (!BOOKS_FEATURES_TABLE.containsKey(id))
+						BOOKS_FEATURES_TABLE.put(id, new ArrayList<Pair<String, Double>>());
+					BOOKS_FEATURES_TABLE.get(id).add(new Pair<String, Double>(feature, weight));
+				} catch (Exception e)
+				{
+					// Nothing, we don't add the feature if there is a problem.
+				}
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+			System.err.println("Features file cannot be loaded !");
+			System.exit(-1);
+		} catch (Exception e)
+		{
+			System.err.println(e.getMessage());
+		}
 	}
 
 	public static List<Pair<String, Double>> getFeaturesBook(int book) throws KeyNotFoundException

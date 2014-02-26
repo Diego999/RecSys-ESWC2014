@@ -1,13 +1,17 @@
 package ch.hearc.p3.recsys;
 
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import jdk.internal.jfr.events.FileWriteEvent;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import ch.hearc.p3.recsys.bookanalysis.Statistics;
 import ch.hearc.p3.recsys.bookanalysis.TypeData;
 import ch.hearc.p3.recsys.bookanalysis.analysis.Abstract;
@@ -16,7 +20,7 @@ import ch.hearc.p3.recsys.bookanalysis.analysis.Author;
 import ch.hearc.p3.recsys.bookanalysis.analysis.Genre;
 import ch.hearc.p3.recsys.bookanalysis.analysis.Subject;
 import ch.hearc.p3.recsys.bookanalysis.analysis.Title;
-import ch.hearc.p3.recsys.io.xml.ImportBooksXML;
+import ch.hearc.p3.recsys.io.Writer;
 import ch.hearc.p3.recsys.settings.SettingsBookAnalysis;
 import ch.hearc.p3.recsys.settings.SettingsFilePaths;
 import ch.hearc.p3.recsys.utils.Pair;
@@ -26,8 +30,28 @@ public class Main
 
 	public static void main(String[] args) throws Exception
 	{
+
+	}
+
+	private static void exportFeatures(List<List<Pair<Integer, List<Pair<String, Double>>>>> books) throws FileNotFoundException, IOException
+	{
+		List<List<String>> data = new ArrayList<List<String>>();
+		for (List<Pair<Integer, List<Pair<String, Double>>>> list : books)
+			for (Pair<Integer, List<Pair<String, Double>>> pair : list)
+				for (Pair<String, Double> feature : pair.getValue())
+				{
+					List<String> features = new ArrayList<String>();
+					features.add(String.valueOf(pair.getKey()));
+					features.add(feature.getKey());
+					features.add(String.valueOf(feature.getValue()));
+					data.add(features);
+				}
+		Writer.write(data, SettingsFilePaths.SEPARATOR_FEATURES, SettingsFilePaths.FILEPATH_FEATURES);
+	}
+
+	private static void plainOutput(List<List<Pair<Integer, List<Pair<String, Double>>>>> books) throws IOException, ParserConfigurationException, SAXException
+	{
 		long start = System.currentTimeMillis();
-		List<List<Pair<Integer, List<Pair<String, Double>>>>> books = executeAnalyzer(createAnalyzer(ImportBooksXML.importBooksXML(SettingsFilePaths.BOOKS_FILE)));
 		display(books);
 		System.out.println((new Statistics(books)).toString());
 		System.out.println("Total time : " + (System.currentTimeMillis() - start) / 1000.0 + " seconds");
