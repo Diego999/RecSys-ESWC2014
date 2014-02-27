@@ -20,23 +20,23 @@ public class RatingsDatabase
 	 * Each user has between 5 and 25 ratings. The itemID are the same of the
 	 * ones in the Mapping file.
 	 */
-	private static final String								SEPARATOR	= "\t";
+	private static final String									SEPARATOR	= "\t";
 
 	// userID \t itemID \t rating
-	private static final Map<Integer, Map<Integer, Double>>	RATING_TABLE;
+	private static final Map<Integer, Map<Integer, Integer>>	RATING_TABLE;
 
 	static
 	{
-		RATING_TABLE = new HashMap<Integer, Map<Integer, Double>>();
+		RATING_TABLE = new HashMap<Integer, Map<Integer, Integer>>();
 		try
 		{
 			for (String[] strings : Reader.readTextFile(SettingsFilePaths.FILEPATH_RATINGS, SEPARATOR))
 			{
 				int user = Integer.valueOf(strings[0]);
 				if (!RATING_TABLE.containsKey(user))
-					RATING_TABLE.put(user, new HashMap<Integer, Double>());
+					RATING_TABLE.put(user, new HashMap<Integer, Integer>());
 
-				RATING_TABLE.get(user).put(Integer.valueOf(strings[1]), Double.valueOf(strings[2]));
+				RATING_TABLE.get(user).put(Integer.valueOf(strings[1]), Integer.valueOf(strings[2]));
 			}
 		} catch (FileNotFoundException e)
 		{
@@ -49,7 +49,12 @@ public class RatingsDatabase
 		}
 	}
 
-	public static Double getRating(int user, int book) throws KeyNotFoundException
+	public static Set<Integer> getAllUsers()
+	{
+		return RATING_TABLE.keySet();
+	}
+
+	public static Integer getRating(int user, int book) throws KeyNotFoundException
 	{
 		if (!RATING_TABLE.containsKey(user))
 			throw new KeyNotFoundException("User (" + user + ") not found !");
@@ -59,7 +64,7 @@ public class RatingsDatabase
 		return RATING_TABLE.get(user).get(book);
 	}
 
-	public static Set<Entry<Integer, Double>> getUsersRatings(int user) throws KeyNotFoundException
+	public static Set<Entry<Integer, Integer>> getUsersRatings(int user) throws KeyNotFoundException
 	{
 		if (!RATING_TABLE.containsKey(user))
 			throw new KeyNotFoundException("User (" + user + ") not found !");

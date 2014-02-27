@@ -3,6 +3,7 @@ package ch.hearc.p3.recsys.io.databases;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import ch.hearc.p3.recsys.exception.KeyNotFoundException;
 import ch.hearc.p3.recsys.io.Reader;
@@ -39,9 +40,9 @@ public class BooksDatabase
 		return BOOK_TABLE.containsKey(book);
 	}
 
-	public static Map<Integer, Pair<String, String>> getAllBooks()
+	public static Set<Integer> getAllBooks()
 	{
-		return BOOK_TABLE;
+		return BOOK_TABLE.keySet();
 	}
 
 	public static Pair<String, String> getBook(int id) throws KeyNotFoundException
