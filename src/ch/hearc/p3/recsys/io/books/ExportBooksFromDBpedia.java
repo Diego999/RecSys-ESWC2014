@@ -28,7 +28,7 @@ public class ExportBooksFromDBpedia
 		double size = BooksDatabase.getAllBooks().size();
 		List<Pair<Integer, Map<TypeData, List<String>>>> allBooks = new ArrayList<Pair<Integer, Map<TypeData, List<String>>>>();
 
-		for (Entry<Integer, Pair<String, String>> book : BooksDatabase.getAllBooks().entrySet())
+		for (Entry<Integer, Pair<String, String>> book : BooksDatabase.getAllDataBooks().entrySet())
 		{
 			Pair<String, String> pair = book.getValue();
 			System.out.println(String.format("%.2f", 100.0 * i / size) + "% " + book.getKey());

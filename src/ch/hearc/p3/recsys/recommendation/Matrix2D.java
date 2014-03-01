@@ -15,8 +15,8 @@ public class Matrix2D<K1, K2, V>
 
 	public Matrix2D(Set<K1> keys1, Set<K2> keys2, V defaultValue)
 	{
-		this.keys1 = new HashSet<K1>(keys1);
-		this.keys2 = new HashSet<K2>(keys2);
+		this.keys1 = keys1;
+		this.keys2 = keys2;
 
 		matrix = new HashMap<K1, Map<K2, V>>();
 		for (K1 k1 : keys1)

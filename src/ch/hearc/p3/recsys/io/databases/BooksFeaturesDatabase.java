@@ -48,6 +48,11 @@ public class BooksFeaturesDatabase
 		}
 	}
 
+	public static void initialize()
+	{
+		
+	}
+	
 	public static List<Pair<String, Double>> getFeaturesBook(int book) throws KeyNotFoundException
 	{
 		if (!BOOKS_FEATURES_TABLE.containsKey(book))

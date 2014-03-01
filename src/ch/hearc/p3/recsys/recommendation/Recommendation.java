@@ -31,10 +31,11 @@ public class Recommendation
 
 	public Recommendation()
 	{
-		features = new HashSet<String>(FeaturesDatabase.getAllFeatures());
 		users = new HashSet<Integer>(RatingsDatabase.getAllUsers());
 		books = new HashSet<Integer>(BooksDatabase.getAllBooks());
-
+		BooksFeaturesDatabase.initialize();
+		features = new HashSet<String>(FeaturesDatabase.getAllFeatures());
+		
 		r = new Matrix2D<Integer, Integer, Integer>(users, books, (int) (EMPTY_CASE));
 		f = new Matrix2D<Integer, String, Double>(books, features, EMPTY_CASE);
 		p = new Matrix2D<Integer, String, Double>(users, features, 0.0);

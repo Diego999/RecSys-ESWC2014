@@ -14,7 +14,7 @@ public class Matrix1D<K, V>
 
 	public Matrix1D(Set<K> keys, V defaultVal)
 	{
-		this.keys = new HashSet<K>(keys);
+		this.keys = keys;
 		matrix = new HashMap<K, V>();
 		for (K key : keys)
 			matrix.put(key, defaultVal);

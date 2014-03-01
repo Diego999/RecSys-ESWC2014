@@ -21,6 +21,7 @@ import ch.hearc.p3.recsys.bookanalysis.analysis.Genre;
 import ch.hearc.p3.recsys.bookanalysis.analysis.Subject;
 import ch.hearc.p3.recsys.bookanalysis.analysis.Title;
 import ch.hearc.p3.recsys.io.Writer;
+import ch.hearc.p3.recsys.recommendation.Recommendation;
 import ch.hearc.p3.recsys.settings.SettingsBookAnalysis;
 import ch.hearc.p3.recsys.settings.SettingsFilePaths;
 import ch.hearc.p3.recsys.utils.Pair;
@@ -30,7 +31,7 @@ public class Main
 
 	public static void main(String[] args) throws Exception
 	{
-
+		Recommendation rec = new Recommendation();
 	}
 
 	private static void exportFeatures(List<List<Pair<Integer, List<Pair<String, Double>>>>> books) throws FileNotFoundException, IOException

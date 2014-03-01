@@ -44,6 +44,11 @@ public class BooksDatabase
 	{
 		return BOOK_TABLE.keySet();
 	}
+	
+	public static Map<Integer, Pair<String, String>> getAllDataBooks()
+	{
+		return BOOK_TABLE;
+	}
 
 	public static Pair<String, String> getBook(int id) throws KeyNotFoundException
 	{
