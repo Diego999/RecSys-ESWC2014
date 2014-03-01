@@ -1,8 +1,12 @@
 package ch.hearc.p3.recsys.utils;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class Tools
@@ -30,5 +34,21 @@ public class Tools
 		});
 		sortedEntries.addAll(map.entrySet());
 		return sortedEntries;
+	}
+
+	// Source
+	// https://stackoverflow.com/questions/13944353/how-to-sort-treemap-by-value-not-by-key
+	public static Iterator<Entry<Integer, Double>> valueIterator(TreeMap<Integer, Double> map)
+	{
+		Set<Entry<Integer, Double>> set = new TreeSet<Entry<Integer, Double>>(new Comparator<Map.Entry<Integer, Double>>()
+		{
+			@Override
+			public int compare(Entry<Integer, Double> o1, Entry<Integer, Double> o2)
+			{
+				return o1.getValue().compareTo(o2.getValue()) < 0 ? 1 : -1;
+			}
+		});
+		set.addAll(map.entrySet());
+		return set.iterator();
 	}
 }

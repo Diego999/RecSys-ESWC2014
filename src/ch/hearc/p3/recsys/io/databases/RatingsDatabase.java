@@ -54,6 +54,19 @@ public class RatingsDatabase
 		return RATING_TABLE.keySet();
 	}
 
+	public static boolean hasRated(int user, int book)
+	{
+		return RATING_TABLE.containsKey(user) && RATING_TABLE.get(user).containsKey(book);
+	}
+
+	public static Set<Integer> getRatedBooks(int user) throws KeyNotFoundException
+	{
+		if (!RATING_TABLE.containsKey(user))
+			throw new KeyNotFoundException("User (" + user + ") not found !");
+
+		return RATING_TABLE.get(user).keySet();
+	}
+
 	public static Integer getRating(int user, int book) throws KeyNotFoundException
 	{
 		if (!RATING_TABLE.containsKey(user))
@@ -70,6 +83,5 @@ public class RatingsDatabase
 			throw new KeyNotFoundException("User (" + user + ") not found !");
 
 		return RATING_TABLE.get(user).entrySet();
-
 	}
 }

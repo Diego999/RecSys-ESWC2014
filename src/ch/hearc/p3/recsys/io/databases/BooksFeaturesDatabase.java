@@ -3,8 +3,10 @@ package ch.hearc.p3.recsys.io.databases;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ch.hearc.p3.recsys.exception.KeyNotFoundException;
 import ch.hearc.p3.recsys.io.Reader;
@@ -50,9 +52,9 @@ public class BooksFeaturesDatabase
 
 	public static void initialize()
 	{
-		
+
 	}
-	
+
 	public static List<Pair<String, Double>> getFeaturesBook(int book) throws KeyNotFoundException
 	{
 		if (!BOOKS_FEATURES_TABLE.containsKey(book))
@@ -60,18 +62,28 @@ public class BooksFeaturesDatabase
 		return BOOKS_FEATURES_TABLE.get(book);
 	}
 
+	public static Set<String> getFeaturesBookTextOnly(int book) throws KeyNotFoundException
+	{
+		if (!BOOKS_FEATURES_TABLE.containsKey(book))
+			throw new KeyNotFoundException("Object not found !");
+		Set<String> features = new HashSet<String>();
+		for (Pair<String, Double> entry : BOOKS_FEATURES_TABLE.get(book))
+			features.add(entry.getKey());
+		return features;
+	}
+
 	public static double getWeight(int book, String feature) throws KeyNotFoundException
 	{
 		if (!BOOKS_FEATURES_TABLE.containsKey(book))
 			throw new KeyNotFoundException("Object not found !");
-		
-		for(Pair<String, Double> pair : BOOKS_FEATURES_TABLE.get(book))
-			if(pair.getKey().equals(feature))
+
+		for (Pair<String, Double> pair : BOOKS_FEATURES_TABLE.get(book))
+			if (pair.getKey().equals(feature))
 				return pair.getValue();
-		
+
 		throw new KeyNotFoundException("The feature " + feature + " is not associated with the book " + book);
 	}
-	
+
 	public static void addBookFeature(int book, String feature, double weight) throws KeyNotFoundException
 	{
 		if (!BOOKS_FEATURES_TABLE.containsKey(book))

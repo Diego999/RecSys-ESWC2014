@@ -1,8 +1,12 @@
 package ch.hearc.p3.recsys.recommendation;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 
 import ch.hearc.p3.recsys.exception.KeyNotFoundException;
 import ch.hearc.p3.recsys.io.databases.BooksFeaturesDatabase;
@@ -33,19 +37,72 @@ public class Recommendation
 		try
 		{
 			fillMatrixP();
-			System.out.println("p");
 			computeW();
-			System.out.println("w");
 			computeUU();
-			System.out.println("u");
-			int a = 0;
-			System.out.println(a);
 		} catch (Exception e)
 		{
 			System.out.println(e.getMessage());
 			System.err.println("Couldn't initialize the matrices !");
 			System.exit(-1);
 		}
+	}
+
+	public Set<Integer> computeRecommendedBooks(int u1) throws KeyNotFoundException
+	{
+		// Compute neighbors
+		TreeMap<Integer, Double> neighboors = new TreeMap<Integer, Double>();
+		for (Integer u2 : users)
+			if (uu.getItem(u1, u2) > EMPTY_CASE && !Tools.compare(uu.getItem(u1, u2), EMPTY_CASE))
+				neighboors.put(u2, uu.getItem(u1, u2));
+
+		Iterator<Entry<Integer, Double>> sortedNeighboors = Tools.valueIterator(neighboors);
+
+		// Keep the K most similar neighbors
+		int i = 0;
+		Set<Integer> finalNeighboors = new HashSet<Integer>();
+		while (sortedNeighboors.hasNext() && i < SettingsRecommendation.K_NEIGHBOOR)
+			finalNeighboors.add(sortedNeighboors.next().getKey());
+
+		// Search unrated books among the neighbors
+		Set<Integer> unratedBooks = new HashSet<Integer>();
+		Set<Integer> ratedBooks = RatingsDatabase.getRatedBooks(u1);
+
+		for (Integer neighboor : finalNeighboors)
+			for (Integer book : RatingsDatabase.getRatedBooks(neighboor))
+				if (!ratedBooks.contains(book))
+					unratedBooks.add(book);
+
+		// Extract features from each book
+		Map<Integer, Set<String>> featuresBooks = new HashMap<Integer, Set<String>>();
+		for (Integer book : unratedBooks)
+			featuresBooks.put(book, BooksFeaturesDatabase.getFeaturesBookTextOnly(book));
+
+		// Compute features frequency
+		Map<String, Integer> featuresFrequency = new HashMap<String, Integer>();
+		for (Entry<Integer, Set<String>> entry : featuresBooks.entrySet())
+			for (String f : entry.getValue())
+				if (!featuresFrequency.containsKey(f))
+					featuresFrequency.put(f, 1);
+				else
+					featuresFrequency.put(f, featuresFrequency.get(f) + 1);
+
+		// Compute cumulative features frequency by books
+		TreeMap<Integer, Double> cumulativeFeaturesFrequencyBook = new TreeMap<Integer, Double>();
+		for (Integer book : unratedBooks)
+		{
+			cumulativeFeaturesFrequencyBook.put(book, 0.0);
+			for (String f : featuresBooks.get(book))
+				cumulativeFeaturesFrequencyBook.put(book, cumulativeFeaturesFrequencyBook.get(book) + featuresFrequency.get(f));
+		}
+
+		// We keep the K books with the highest cumulative features frequency
+		Iterator<Entry<Integer, Double>> allRecommendedBooks = Tools.valueIterator(cumulativeFeaturesFrequencyBook);
+		i = 0;
+		Set<Integer> recommendedBooks = new HashSet<Integer>();
+		while (allRecommendedBooks.hasNext() && i < SettingsRecommendation.K_RECOMMENDED)
+			recommendedBooks.add(allRecommendedBooks.next().getKey());
+
+		return recommendedBooks;
 	}
 
 	private void computeW() throws KeyNotFoundException
