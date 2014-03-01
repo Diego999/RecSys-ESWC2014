@@ -50,6 +50,8 @@ public class Main
 		Writer.write(data, SettingsFilePaths.SEPARATOR_FEATURES, SettingsFilePaths.FILEPATH_FEATURES);
 	}
 
+
+	
 	private static void plainOutput(List<List<Pair<Integer, List<Pair<String, Double>>>>> books) throws IOException, ParserConfigurationException, SAXException
 	{
 		long start = System.currentTimeMillis();

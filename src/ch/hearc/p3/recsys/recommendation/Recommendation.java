@@ -1,5 +1,7 @@
 package ch.hearc.p3.recsys.recommendation;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -12,6 +14,7 @@ import ch.hearc.p3.recsys.exception.KeyNotFoundException;
 import ch.hearc.p3.recsys.io.databases.BooksFeaturesDatabase;
 import ch.hearc.p3.recsys.io.databases.FeaturesDatabase;
 import ch.hearc.p3.recsys.io.databases.RatingsDatabase;
+import ch.hearc.p3.recsys.io.recommendation.ImportMatrixUU;
 import ch.hearc.p3.recsys.settings.SettingsRecommendation;
 import ch.hearc.p3.recsys.utils.Pair;
 import ch.hearc.p3.recsys.utils.Tools;
@@ -26,24 +29,36 @@ public class Recommendation
 
 	private static final double					EMPTY_CASE	= -1.0;
 
-	public Recommendation()
+	public Recommendation() throws NumberFormatException, FileNotFoundException, IOException, KeyNotFoundException
+	{
+		this(false);
+	}
+
+	public Recommendation(boolean importUU) throws NumberFormatException, FileNotFoundException, IOException, KeyNotFoundException
 	{
 		users = RatingsDatabase.getAllUsers();
 		BooksFeaturesDatabase.initialize();
 		features = FeaturesDatabase.getAllFeatures();
 
-		p = new Matrix2D<Integer, String, Double>(users, features, EMPTY_CASE);
+		uu = new Matrix2D<Integer, Integer, Double>(users, users, EMPTY_CASE);
 
-		try
+		if (importUU)
+			ImportMatrixUU.importMatrixUU(uu);
+		else
 		{
-			fillMatrixP();
-			computeW();
-			computeUU();
-		} catch (Exception e)
-		{
-			System.out.println(e.getMessage());
-			System.err.println("Couldn't initialize the matrices !");
-			System.exit(-1);
+			p = new Matrix2D<Integer, String, Double>(users, features, EMPTY_CASE);
+
+			try
+			{
+				fillMatrixP();
+				computeW();
+				computeUU();
+			} catch (Exception e)
+			{
+				System.out.println(e.getMessage());
+				System.err.println("Couldn't initialize the matrices !");
+				System.exit(-1);
+			}
 		}
 	}
 
