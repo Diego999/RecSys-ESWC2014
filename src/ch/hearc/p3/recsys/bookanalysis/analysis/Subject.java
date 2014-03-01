@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import ch.hearc.p3.recsys.bookanalysis.Lemmatizer;
 import ch.hearc.p3.recsys.bookanalysis.TypeData;
 import ch.hearc.p3.recsys.settings.SettingsBookAnalysis;
 import ch.hearc.p3.recsys.utils.Pair;
@@ -37,7 +38,10 @@ public class Subject extends Analyzer
 				}
 			for (String s : feature)
 			{
-				list.add(new Pair<String, Double>(s.toLowerCase().trim(), SettingsBookAnalysis.ATTRIBUTE_WEIGHT_FACTOR.get(typeData)));
+				List<String> lemmas = Lemmatizer.lemmatize(s.toLowerCase().trim());
+				Lemmatizer.removeStopWords(lemmas);
+				for(String lemma : lemmas)
+					list.add(new Pair<String, Double>(lemma, SettingsBookAnalysis.ATTRIBUTE_WEIGHT_FACTOR.get(typeData)));
 			}
 			out.add(new Pair<Integer, List<Pair<String, Double>>>(pair.getKey(), list));
 		}

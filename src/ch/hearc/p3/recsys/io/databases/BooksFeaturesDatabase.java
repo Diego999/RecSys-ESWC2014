@@ -60,6 +60,18 @@ public class BooksFeaturesDatabase
 		return BOOKS_FEATURES_TABLE.get(book);
 	}
 
+	public static double getWeight(int book, String feature) throws KeyNotFoundException
+	{
+		if (!BOOKS_FEATURES_TABLE.containsKey(book))
+			throw new KeyNotFoundException("Object not found !");
+		
+		for(Pair<String, Double> pair : BOOKS_FEATURES_TABLE.get(book))
+			if(pair.getKey().equals(feature))
+				return pair.getValue();
+		
+		throw new KeyNotFoundException("The feature " + feature + " is not associated with the book " + book);
+	}
+	
 	public static void addBookFeature(int book, String feature, double weight) throws KeyNotFoundException
 	{
 		if (!BOOKS_FEATURES_TABLE.containsKey(book))
