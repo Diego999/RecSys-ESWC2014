@@ -21,6 +21,7 @@ import ch.hearc.p3.recsys.bookanalysis.analysis.Genre;
 import ch.hearc.p3.recsys.bookanalysis.analysis.Subject;
 import ch.hearc.p3.recsys.bookanalysis.analysis.Title;
 import ch.hearc.p3.recsys.io.Writer;
+import ch.hearc.p3.recsys.io.recommendation.ExportResults;
 import ch.hearc.p3.recsys.recommendation.Recommendation;
 import ch.hearc.p3.recsys.settings.SettingsBookAnalysis;
 import ch.hearc.p3.recsys.settings.SettingsFilePaths;
@@ -31,7 +32,7 @@ public class Main
 
 	public static void main(String[] args) throws Exception
 	{
-		Recommendation rec = new Recommendation();
+		ExportResults.exportResults(new Recommendation(true));
 	}
 
 	private static void exportFeatures(List<List<Pair<Integer, List<Pair<String, Double>>>>> books) throws FileNotFoundException, IOException
@@ -50,8 +51,6 @@ public class Main
 		Writer.write(data, SettingsFilePaths.SEPARATOR_FEATURES, SettingsFilePaths.FILEPATH_FEATURES);
 	}
 
-
-	
 	private static void plainOutput(List<List<Pair<Integer, List<Pair<String, Double>>>>> books) throws IOException, ParserConfigurationException, SAXException
 	{
 		long start = System.currentTimeMillis();

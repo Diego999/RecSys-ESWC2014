@@ -8,6 +8,7 @@ public class SettingsFilePaths
 	public static final String	FILEPATH_FEATURES		= "res/features.tsv";
 	public static final String	SEPARATOR_FEATURES		= ";";
 	public static final String	FILEPATH_UU				= "res/uu.txt";
+	public static final String	FILEPATH_RESULT			= "results/result.txt";
 
 	private SettingsFilePaths()
 	{

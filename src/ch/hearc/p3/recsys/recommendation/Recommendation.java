@@ -2,9 +2,11 @@ package ch.hearc.p3.recsys.recommendation;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -14,6 +16,7 @@ import ch.hearc.p3.recsys.exception.KeyNotFoundException;
 import ch.hearc.p3.recsys.io.databases.BooksFeaturesDatabase;
 import ch.hearc.p3.recsys.io.databases.FeaturesDatabase;
 import ch.hearc.p3.recsys.io.databases.RatingsDatabase;
+import ch.hearc.p3.recsys.io.recommendation.ExportMatrixUU;
 import ch.hearc.p3.recsys.io.recommendation.ImportMatrixUU;
 import ch.hearc.p3.recsys.settings.SettingsRecommendation;
 import ch.hearc.p3.recsys.utils.Pair;
@@ -53,6 +56,7 @@ public class Recommendation
 				fillMatrixP();
 				computeW();
 				computeUU();
+				ExportMatrixUU.exportMatrixUU(uu);
 			} catch (Exception e)
 			{
 				System.out.println(e.getMessage());
@@ -62,7 +66,7 @@ public class Recommendation
 		}
 	}
 
-	public Set<Integer> computeRecommendedBooks(int u1) throws KeyNotFoundException
+	public List<Integer> computeRecommendedBooks(int u1) throws KeyNotFoundException
 	{
 		// Compute neighbors
 		TreeMap<Integer, Double> neighboors = new TreeMap<Integer, Double>();
@@ -70,12 +74,12 @@ public class Recommendation
 			if (uu.getItem(u1, u2) > EMPTY_CASE && !Tools.compare(uu.getItem(u1, u2), EMPTY_CASE))
 				neighboors.put(u2, uu.getItem(u1, u2));
 
-		Iterator<Entry<Integer, Double>> sortedNeighboors = Tools.valueIterator(neighboors);
+		Iterator<Entry<Integer, Double>> sortedNeighboors = Tools.sortDesc(neighboors);
 
 		// Keep the K most similar neighbors
 		int i = 0;
 		Set<Integer> finalNeighboors = new HashSet<Integer>();
-		while (sortedNeighboors.hasNext() && i < SettingsRecommendation.K_NEIGHBOOR)
+		while (sortedNeighboors.hasNext() && i++ < SettingsRecommendation.K_NEIGHBOOR)
 			finalNeighboors.add(sortedNeighboors.next().getKey());
 
 		// Search unrated books among the neighbors
@@ -111,10 +115,10 @@ public class Recommendation
 		}
 
 		// We keep the K books with the highest cumulative features frequency
-		Iterator<Entry<Integer, Double>> allRecommendedBooks = Tools.valueIterator(cumulativeFeaturesFrequencyBook);
+		Iterator<Entry<Integer, Double>> allRecommendedBooks = Tools.sortDesc(cumulativeFeaturesFrequencyBook);
 		i = 0;
-		Set<Integer> recommendedBooks = new HashSet<Integer>();
-		while (allRecommendedBooks.hasNext() && i < SettingsRecommendation.K_RECOMMENDED)
+		List<Integer> recommendedBooks = new ArrayList<Integer>();
+		while (allRecommendedBooks.hasNext() && i++ < SettingsRecommendation.K_RECOMMENDED)
 			recommendedBooks.add(allRecommendedBooks.next().getKey());
 
 		return recommendedBooks;

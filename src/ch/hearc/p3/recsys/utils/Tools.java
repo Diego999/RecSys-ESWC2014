@@ -22,7 +22,7 @@ public class Tools
 	}
 
 	// Source https://stackoverflow.com/questions/2864840/treemap-sort-by-value
-	public static <K, V extends Comparable<? super V>> SortedSet<Map.Entry<K, V>> entriesSortedByValues(Map<K, V> map)
+	public static <K, V extends Comparable<? super V>> SortedSet<Map.Entry<K, V>> entriesSortedByValuesDesc(Map<K, V> map)
 	{
 		SortedSet<Map.Entry<K, V>> sortedEntries = new TreeSet<Map.Entry<K, V>>(new Comparator<Map.Entry<K, V>>()
 		{
@@ -38,7 +38,7 @@ public class Tools
 
 	// Source
 	// https://stackoverflow.com/questions/13944353/how-to-sort-treemap-by-value-not-by-key
-	public static Iterator<Entry<Integer, Double>> valueIterator(TreeMap<Integer, Double> map)
+	public static Iterator<Entry<Integer, Double>> sortDesc(TreeMap<Integer, Double> map)
 	{
 		Set<Entry<Integer, Double>> set = new TreeSet<Entry<Integer, Double>>(new Comparator<Map.Entry<Integer, Double>>()
 		{
