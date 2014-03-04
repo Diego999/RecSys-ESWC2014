@@ -7,3 +7,5 @@
 /bin
 output.txt
 *.prefs
+res/uu.txt
+results/*
