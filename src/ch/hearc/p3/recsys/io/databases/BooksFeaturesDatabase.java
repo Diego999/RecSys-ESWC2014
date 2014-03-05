@@ -22,6 +22,7 @@ public class BooksFeaturesDatabase
 		BOOKS_FEATURES_TABLE = new HashMap<Integer, List<Pair<String, Double>>>();
 		try
 		{
+			Map<Integer, List<String>> bookFeatures = new HashMap<Integer, List<String>>();
 			for (String[] strings : Reader.readTextFile(SettingsFilePaths.FILEPATH_FEATURES, SettingsFilePaths.SEPARATOR_FEATURES))
 				try
 				{
@@ -32,9 +33,16 @@ public class BooksFeaturesDatabase
 
 					if (!BooksDatabase.contains(id))
 						throw new KeyNotFoundException("Book " + id + " hasn't be found !");
-					if (!BOOKS_FEATURES_TABLE.containsKey(id))
-						BOOKS_FEATURES_TABLE.put(id, new ArrayList<Pair<String, Double>>());
-					BOOKS_FEATURES_TABLE.get(id).add(new Pair<String, Double>(feature, weight));
+					if (!bookFeatures.containsKey(id))
+						bookFeatures.put(id, new ArrayList<String>());
+
+					if (!bookFeatures.get(id).contains(feature))
+					{
+						bookFeatures.get(id).add(feature);
+						if (!BOOKS_FEATURES_TABLE.containsKey(id))
+							BOOKS_FEATURES_TABLE.put(id, new ArrayList<Pair<String, Double>>());
+						BOOKS_FEATURES_TABLE.get(id).add(new Pair<String, Double>(feature, weight));
+					}
 				} catch (Exception e)
 				{
 					// Nothing, we don't add the feature if there is a problem.
